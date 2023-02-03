@@ -1,3 +1,13 @@
-from django.contrib import admin  # noqa F401
+from django.contrib import admin
 
-# Register your models here.
+from .models import Dataset, Tag
+
+
+@admin.register(Dataset)
+class DatasetAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ("aspect", "sentiment")
