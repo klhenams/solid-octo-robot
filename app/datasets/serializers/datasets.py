@@ -28,4 +28,5 @@ class DatasetSerializer(serializers.ModelSerializer):
             tags = TagSerializer(many=True).create(validated_data.pop("tags"))
             dataset = super().create(validated_data=validated_data)
             dataset.tags.add(*tags)
-        return dataset
+            return dataset
+        return super().create(validated_data=validated_data)
