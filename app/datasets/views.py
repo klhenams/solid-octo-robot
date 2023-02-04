@@ -1,9 +1,15 @@
 from django.conf import settings
 from django.core.cache import cache
 from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from .models import Dataset, Tag
-from .serializers.datasets import DatasetSerializer, TagSerializer
+from .serializers.datasets import (
+    DatasetSerializer,
+    TagAspectsOnlySerializer,
+    TagSerializer,
+)
 
 
 class DatasetViewset(viewsets.ModelViewSet):
@@ -38,3 +44,7 @@ class TagViewset(viewsets.ModelViewSet):
             tags = super().get_queryset(*args, **kwargs)
             cache.set("tags", tags, timeout=settings.CACHE_TTL)
             return tags
+
+    @action(detail=False)
+    def aspects(self, request):
+        return Response(TagAspectsOnlySerializer(self.get_queryset(), many=True).data)
