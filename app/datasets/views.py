@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .models import Dataset
-from .serializers.datasets import DatasetSerializer
+from .models import Dataset, Tag
+from .serializers.datasets import DatasetSerializer, TagSerializer
 
 
 class DatasetViewset(viewsets.ModelViewSet):
@@ -14,3 +14,8 @@ class DatasetViewset(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class TagViewset(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
