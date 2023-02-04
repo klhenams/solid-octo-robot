@@ -20,6 +20,9 @@ class Tag(Timer):
     def __str__(self):
         return f"Tag <{self.aspect}, {self.sentiment}>"
 
+    class Meta:
+        unique_together = ["aspect", "sentiment"]
+
 
 class Dataset(Timer):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

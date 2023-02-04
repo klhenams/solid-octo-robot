@@ -39,5 +39,6 @@ class LabeledDatasetFactory(DatasetFactory):
 
         if extracted:
             # A list of groups were passed in, use them
-            for tag in extracted:
-                self.tags.add(tag)
+            # for tag in extracted:
+            #     self.tags.add(tag)
+            self.tags.add(*extracted)
