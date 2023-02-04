@@ -1,7 +1,7 @@
 from django.test import RequestFactory
 
 from app.datasets.models import Dataset, Tag
-from app.datasets.views import DatasetViewset, TagViewset
+from app.datasets.views.dataset import DatasetViewset, TagViewset
 
 
 class TestDatasetViewSet:
