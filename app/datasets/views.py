@@ -29,3 +29,12 @@ class DatasetViewset(viewsets.ModelViewSet):
 class TagViewset(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        if "tags" in cache:
+            # get results from cache
+            return cache.get("tags")
+        else:
+            tags = super().get_queryset(*args, **kwargs)
+            cache.set("tags", tags, timeout=settings.CACHE_TTL)
+            return tags
