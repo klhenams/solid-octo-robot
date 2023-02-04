@@ -16,10 +16,7 @@ class TagSerializer(serializers.ModelSerializer):
 class TagAspectsOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
-        fields = [
-            "id",
-            "aspect",
-        ]
+        fields = ["aspect"]
 
 
 class DatasetSerializer(serializers.ModelSerializer):

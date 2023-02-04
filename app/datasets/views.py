@@ -4,6 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from app.datasets.utils.enumerations import Sentiment
+
 from .models import Dataset, Tag
 from .serializers.datasets import (
     DatasetSerializer,
@@ -48,3 +50,7 @@ class TagViewset(viewsets.ModelViewSet):
     @action(detail=False)
     def aspects(self, request):
         return Response(TagAspectsOnlySerializer(self.get_queryset(), many=True).data)
+
+    @action(detail=False)
+    def sentiments(self, request):
+        return Response(Sentiment.choices)
