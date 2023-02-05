@@ -6,8 +6,8 @@ from rest_framework.response import Response
 
 from app.datasets.utils.enumerations import Sentiment
 
-from .models import Dataset, Tag
-from .serializers.datasets import (
+from ..models import Dataset, Tag
+from ..serializers.datasets import (
     DatasetSerializer,
     TagAspectsOnlySerializer,
     TagSerializer,
