@@ -4,6 +4,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from app.datasets.utils.csv import get_csv_operators
 from app.datasets.utils.enumerations import Sentiment
 
 from ..models import Dataset, Tag
@@ -33,6 +34,15 @@ class DatasetViewset(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    @action(detail=False)
+    def download(self, request):
+        response, writer = get_csv_operators(filename="dataset")
+        datasets = self.get_queryset()
+        for data in datasets:
+            writer.writerow(["Data", "Tags"])
+            writer.writerow([data.text, list(data.tags.all())])
+        return response
+
 
 class TagViewset(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
@@ -54,3 +64,12 @@ class TagViewset(viewsets.ModelViewSet):
     @action(detail=False)
     def sentiments(self, request):
         return Response(Sentiment.choices)
+
+    @action(detail=False)
+    def download(self, request):
+        response, writer = get_csv_operators(filename="tags")
+        tags = self.get_queryset()
+        for data in tags:
+            writer.writerow(["Aspect", "Sentiment"])
+            writer.writerow([data.aspect, data.sentiment])
+        return response
