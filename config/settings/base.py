@@ -362,3 +362,4 @@ REST_AUTH_SERIALIZERS = {
 # Caching
 # ------------------------------------------------------------------------------
 CACHE_TTL = env.int("DJANGO_CACHE_TTL", default=300)
+BATCH_SIZE = env.int("DATABASE_BATCH_SIZE", default=1000)
