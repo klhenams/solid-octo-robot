@@ -20,8 +20,6 @@ class TagAspectsOnlySerializer(serializers.ModelSerializer):
 
 
 class DatasetSerializer(serializers.ModelSerializer):
-    tags = TagSerializer(many=True, required=False)
-
     class Meta:
         model = Dataset
         fields = [
@@ -29,10 +27,15 @@ class DatasetSerializer(serializers.ModelSerializer):
             "tags",
         ]
 
+
+class NestedDatasetSerializer(DatasetSerializer):
+    tags = TagSerializer(many=True, required=False)
+
     def create(self, validated_data):
         if "tags" in validated_data.keys():
             tags = TagSerializer(many=True).create(validated_data.pop("tags"))
             dataset = super().create(validated_data=validated_data)
             dataset.tags.add(*tags)
+            # TODO: unset cache
             return dataset
         return super().create(validated_data=validated_data)

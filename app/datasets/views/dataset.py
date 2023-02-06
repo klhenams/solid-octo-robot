@@ -10,6 +10,7 @@ from app.datasets.utils.enumerations import Sentiment
 from ..models import Dataset, Tag
 from ..serializers.datasets import (
     DatasetSerializer,
+    NestedDatasetSerializer,
     TagAspectsOnlySerializer,
     TagSerializer,
 )
@@ -17,7 +18,7 @@ from ..serializers.datasets import (
 
 class DatasetViewset(viewsets.ModelViewSet):
     queryset = Dataset.objects.all()
-    serializer_class = DatasetSerializer
+    serializer_class = NestedDatasetSerializer
 
     def get_queryset(self, *args, **kwargs):
         user = self.request.user.id
@@ -33,6 +34,14 @@ class DatasetViewset(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        serializer = DatasetSerializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
     @action(detail=False)
     def download(self, request):
