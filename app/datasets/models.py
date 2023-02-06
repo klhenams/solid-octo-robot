@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 from .utils.enumerations import Sentiment
@@ -31,3 +32,10 @@ class Dataset(Timer):
 
     def __str__(self):
         return self.text
+
+
+class Document(Timer):
+    file = models.FileField(
+        upload_to="documents/%Y/%m/%d",
+        validators=[FileExtensionValidator(["csv", "xls", "xlsx"])],
+    )

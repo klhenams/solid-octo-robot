@@ -359,3 +359,7 @@ PASSWORD_RESET_LINK = env("DJANGO_PASSWORD_RESET_LINK", default=None)
 REST_AUTH_SERIALIZERS = {
     "PASSWORD_RESET_SERIALIZER": "app.users.serializers.authentication.CustomPasswordResetSerializer"
 }
+# Caching
+# ------------------------------------------------------------------------------
+CACHE_TTL = env.int("DJANGO_CACHE_TTL", default=300)
+BATCH_SIZE = env.int("DATABASE_BATCH_SIZE", default=1000)
